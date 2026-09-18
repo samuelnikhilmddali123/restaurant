@@ -172,6 +172,7 @@ export const OrdersScreen: React.FC = () => {
                 maxLength={100}
                 value={orderNote}
                 onChangeText={setOrderNote}
+                disableFullscreenUI={true}
               />
               <Text style={styles.noteCounter}>{orderNote.length}/100</Text>
             </View>

@@ -118,6 +118,7 @@ export const CartSidebar: React.FC = () => {
               placeholderTextColor="#94a3b8"
               value={orderNote}
               onChangeText={setOrderNote}
+              disableFullscreenUI={true}
             />
           </View>
 

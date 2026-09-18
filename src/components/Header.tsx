@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   StyleSheet,
   View,
@@ -18,6 +18,7 @@ const OFFICER_AVATAR =
 
 export const Header: React.FC = () => {
   const { searchQuery, setSearchQuery } = useCanteen();
+  const searchInputRef = useRef<TextInput>(null);
   const [timeStr, setTimeStr] = useState<string>('12:28 PM');
   const [dateStr, setDateStr] = useState<string>('Wed, 17 Sep 2026');
 
@@ -66,19 +67,31 @@ export const Header: React.FC = () => {
         </View>
 
         {/* Center: Search Bar */}
-        <View style={styles.searchWrapper}>
+        <TouchableOpacity
+          style={styles.searchWrapper}
+          activeOpacity={1}
+          onPress={() => searchInputRef.current?.focus()}
+        >
           <AppIcon name="search-outline" size={17} color="#64748b" style={styles.searchIcon} />
           <TextInput
+            ref={searchInputRef}
             style={styles.searchInput}
             placeholder="Search for dishes, cuisines or dietary preferences..."
             placeholderTextColor="#94a3b8"
             value={searchQuery}
             onChangeText={setSearchQuery}
+            disableFullscreenUI={true}
+            returnKeyType="search"
+            autoCapitalize="none"
+            autoCorrect={false}
+            keyboardType="default"
+            multiline={false}
+            numberOfLines={1}
           />
           <TouchableOpacity style={styles.filterBtn} activeOpacity={0.7}>
             <AppIcon name="options-outline" size={17} color="#334155" />
           </TouchableOpacity>
-        </View>
+        </TouchableOpacity>
 
         {/* Right Section: Time, Notifications, Officer Profile */}
         <View style={styles.rightSection}>
