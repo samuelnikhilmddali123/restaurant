@@ -1,11 +1,26 @@
 import React from 'react';
-import { StyleSheet, View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+  Platform,
+} from 'react-native';
 import { AppIcon } from '../components/AppIcon';
 import { useCanteen } from '../context/CanteenContext';
 import { MENU_ITEMS } from '../data/canteenData';
 import { CategoryFilterBar } from '../components/CategoryFilterBar';
 import { FoodCard } from '../components/FoodCard';
 import { CartSidebar } from '../components/CartSidebar';
+
+const SERIF_FONT = Platform.select({
+  ios: 'Georgia',
+  android: 'serif',
+  web: "Georgia, 'Playfair Display', 'Times New Roman', serif",
+  default: 'Georgia',
+});
 
 export const MenuScreen: React.FC = () => {
   const { activeCategory, searchQuery } = useCanteen();
@@ -37,21 +52,54 @@ export const MenuScreen: React.FC = () => {
   const visibleSnacks = applyFilters(snackItems);
 
   return (
-    <View style={styles.screenContainer}>
-      <View style={styles.mainLayout}>
-        {/* Left Scrollable Menu Section */}
-        <ScrollView style={styles.menuScrollArea} showsVerticalScrollIndicator={false}>
-          {/* Header Title */}
-          <View style={styles.titleSection}>
-            <Text style={styles.pageTitle}>Menu</Text>
-            <Text style={styles.pageSubtitle}>
-              Freshly prepared | Hygienic | Nutrition focused
+    <ScrollView style={styles.screenContainer} showsVerticalScrollIndicator={false}>
+      {/* 1. Hero Menu Banner (with Taj Backdrop & Slogan just like Home page) */}
+      <View style={styles.heroBanner}>
+        {/* Left: Menu Title & Subtitle */}
+        <View style={styles.heroMenuText}>
+          <Text style={styles.pageTitle}>Menu</Text>
+          <View style={styles.titleAccentLine} />
+          <Text style={styles.pageSubtitle}>
+            Freshly prepared  |  Hygienic  |  Nutrition focused
+          </Text>
+        </View>
+
+        {/* Far Right: Rashtrapati Bhavan Artwork from assets/taj.png touching the right side edge */}
+        <View style={styles.backdropWrapper} pointerEvents="none">
+          <Image
+            source={require('../../assets/taj.png')}
+            style={styles.tajBackdropImage}
+            resizeMode="contain"
+          />
+        </View>
+
+        {/* Right Slogan with Vertical Line & Two-Tone Orange/Green Accent Line */}
+        <View style={styles.sloganWrapper}>
+          <View style={styles.sloganRow}>
+            {/* Left Vertical Line */}
+            <View style={styles.sloganVerticalLine} />
+
+            {/* Slogan Text */}
+            <Text style={styles.sloganText}>
+              Nourishing{'\n'}People.{'\n'}Enabling{'\n'}Progress.
             </Text>
           </View>
 
-          {/* Category Chips */}
-          <CategoryFilterBar />
+          {/* Bottom Two-Tone Accent Line: Orange (left) & Green (right) */}
+          <View style={styles.twoToneAccentLine}>
+            <View style={styles.orangeLineSegment} />
+            <View style={styles.greenLineSegment} />
+          </View>
+        </View>
+      </View>
 
+      {/* 2. Category Filter Pills */}
+      <CategoryFilterBar />
+
+      {/* 3. Main Body: Menu Sections on Left + Sticky Cart Sidebar on Right */}
+      <View style={styles.mainLayout}>
+        {/* Left Scrollable Menu Categories */}
+        <View style={styles.menuContentArea}>
           {/* Section 1: Breakfast */}
           {visibleBreakfast.length > 0 && (
             <View style={styles.categorySection}>
@@ -60,7 +108,7 @@ export const MenuScreen: React.FC = () => {
                   Breakfast{' '}
                   <Text style={styles.sectionCount}>({visibleBreakfast.length} items)</Text>
                 </Text>
-                <TouchableOpacity style={styles.seeAllBtn}>
+                <TouchableOpacity style={styles.seeAllBtn} activeOpacity={0.7}>
                   <Text style={styles.seeAllText}>See All</Text>
                   <AppIcon name="arrow-forward" size={13} color="#0f172a" />
                 </TouchableOpacity>
@@ -84,7 +132,7 @@ export const MenuScreen: React.FC = () => {
                   Lunch{' '}
                   <Text style={styles.sectionCount}>({visibleLunch.length} items)</Text>
                 </Text>
-                <TouchableOpacity style={styles.seeAllBtn}>
+                <TouchableOpacity style={styles.seeAllBtn} activeOpacity={0.7}>
                   <Text style={styles.seeAllText}>See All</Text>
                   <AppIcon name="arrow-forward" size={13} color="#0f172a" />
                 </TouchableOpacity>
@@ -108,7 +156,7 @@ export const MenuScreen: React.FC = () => {
                   Snacks{' '}
                   <Text style={styles.sectionCount}>({visibleSnacks.length} items)</Text>
                 </Text>
-                <TouchableOpacity style={styles.seeAllBtn}>
+                <TouchableOpacity style={styles.seeAllBtn} activeOpacity={0.7}>
                   <Text style={styles.seeAllText}>See All</Text>
                   <AppIcon name="arrow-forward" size={13} color="#0f172a" />
                 </TouchableOpacity>
@@ -123,14 +171,14 @@ export const MenuScreen: React.FC = () => {
               </View>
             </View>
           )}
-        </ScrollView>
+        </View>
 
         {/* Right Sticky Cart Sidebar */}
         <View style={styles.cartColumn}>
           <CartSidebar />
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -139,39 +187,125 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#ffffff',
   },
-  mainLayout: {
-    flex: 1,
+  heroBanner: {
     flexDirection: 'row',
-    paddingHorizontal: 24,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingLeft: 24,
+    paddingRight: 0,
     paddingTop: 8,
-    paddingBottom: 16,
-    gap: 18,
+    paddingBottom: 0,
+    height: 180,
+    backgroundColor: '#ffffff',
+    position: 'relative',
+    overflow: 'hidden',
   },
-  menuScrollArea: {
-    flex: 1,
-  },
-  titleSection: {
-    marginBottom: 4,
+  heroMenuText: {
+    zIndex: 2,
+    transform: [{ translateY: -10 }],
   },
   pageTitle: {
-    fontSize: 24,
-    fontWeight: '800',
+    fontSize: 42,
+    fontWeight: '700',
     color: '#0f172a',
+    fontFamily: SERIF_FONT,
+    letterSpacing: -0.6,
+    lineHeight: 48,
+  },
+  titleAccentLine: {
+    width: 38,
+    height: 3,
+    backgroundColor: '#0e4d36',
+    borderRadius: 2,
+    marginTop: 6,
+    marginBottom: 6,
   },
   pageSubtitle: {
-    fontSize: 11,
+    fontSize: 12,
     color: '#64748b',
-    marginTop: 2,
     fontWeight: '500',
+    letterSpacing: 0.2,
+  },
+  backdropWrapper: {
+    position: 'absolute',
+    right: 0,
+    bottom: -20,
+    height: 240,
+    aspectRatio: 1945 / 724,
+    zIndex: 1,
+  },
+  tajBackdropImage: {
+    width: '100%',
+    height: '100%',
+    opacity: 0.82,
+  },
+  sloganWrapper: {
+    alignItems: 'flex-start',
+    zIndex: 2,
+    marginRight: 35,
+    transform: [{ translateY: -30 }],
+  },
+  sloganRow: {
+    flexDirection: 'row',
+    alignItems: 'stretch',
+  },
+  sloganVerticalLine: {
+    width: 2.5,
+    backgroundColor: '#0e4d36',
+    borderRadius: 1.5,
+    marginRight: 10,
+  },
+  sloganText: {
+    fontSize: 15.5,
+    fontWeight: '500',
+    color: '#0f172a',
+    fontFamily: SERIF_FONT,
+    lineHeight: 21,
+    letterSpacing: -0.2,
+  },
+  twoToneAccentLine: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+    marginLeft: 12.5,
+    height: 3,
+  },
+  orangeLineSegment: {
+    width: 26,
+    height: 3,
+    backgroundColor: '#ea580c',
+    borderTopLeftRadius: 2,
+    borderBottomLeftRadius: 2,
+  },
+  greenLineSegment: {
+    width: 26,
+    height: 3,
+    backgroundColor: '#0e4d36',
+    borderTopRightRadius: 2,
+    borderBottomRightRadius: 2,
+  },
+  mainLayout: {
+    flexDirection: 'row',
+    paddingHorizontal: 24,
+    paddingTop: 12,
+    paddingBottom: 24,
+    gap: 20,
+    alignItems: 'flex-start',
+  },
+  menuContentArea: {
+    flex: 1,
+  },
+  cartColumn: {
+    width: 310,
   },
   categorySection: {
-    marginBottom: 20,
+    marginBottom: 24,
   },
   sectionHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 10,
+    marginBottom: 12,
   },
   sectionTitle: {
     fontSize: 15,
@@ -199,10 +333,8 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   cardWrapper: {
-    width: '31.8%',
-    minWidth: 145,
-  },
-  cartColumn: {
-    height: '100%',
+    width: 128,
+    flexGrow: 1,
+    maxWidth: 160,
   },
 });

@@ -52,7 +52,7 @@ export const CartSidebar: React.FC = () => {
       </View>
 
       {/* Cart Items List */}
-      <ScrollView style={styles.itemList} showsVerticalScrollIndicator={false}>
+      <View style={styles.itemList}>
         {cart.length === 0 ? (
           <View style={styles.emptyContainer}>
             <AppIcon name="bag-handle-outline" size={32} color="#cbd5e1" />
@@ -62,7 +62,11 @@ export const CartSidebar: React.FC = () => {
         ) : (
           cart.map((cartItem) => (
             <View key={cartItem.item.id} style={styles.itemRow}>
-              <Image source={{ uri: cartItem.item.image }} style={styles.itemImage} />
+              <Image
+                source={{ uri: cartItem.item.image }}
+                style={styles.itemImage}
+                resizeMode="cover"
+              />
 
               <View style={styles.itemDetails}>
                 <Text style={styles.itemName} numberOfLines={1}>
@@ -76,6 +80,7 @@ export const CartSidebar: React.FC = () => {
                 <TouchableOpacity
                   style={styles.stepBtn}
                   onPress={() => updateQuantity(cartItem.item.id, -1)}
+                  activeOpacity={0.7}
                 >
                   <Text style={styles.stepBtnText}>−</Text>
                 </TouchableOpacity>
@@ -83,6 +88,7 @@ export const CartSidebar: React.FC = () => {
                 <TouchableOpacity
                   style={styles.stepBtn}
                   onPress={() => updateQuantity(cartItem.item.id, 1)}
+                  activeOpacity={0.7}
                 >
                   <Text style={styles.stepBtnText}>+</Text>
                 </TouchableOpacity>
@@ -92,13 +98,14 @@ export const CartSidebar: React.FC = () => {
               <TouchableOpacity
                 style={styles.deleteBtn}
                 onPress={() => removeFromCart(cartItem.item.id)}
+                activeOpacity={0.7}
               >
                 <AppIcon name="trash-outline" size={15} color="#94a3b8" />
               </TouchableOpacity>
             </View>
           ))
         )}
-      </ScrollView>
+      </View>
 
       {cart.length > 0 && (
         <View style={styles.footerSection}>
@@ -170,8 +177,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.04,
     shadowRadius: 3,
     elevation: 1,
-    height: '100%',
-    justifyContent: 'space-between',
+    alignSelf: 'flex-start',
   },
   header: {
     flexDirection: 'row',
@@ -210,8 +216,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   itemList: {
-    flex: 1,
-    paddingVertical: 10,
+    paddingVertical: 6,
   },
   emptyContainer: {
     alignItems: 'center',
@@ -233,9 +238,9 @@ const styles = StyleSheet.create({
   itemRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 8,
+    paddingVertical: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#f8fafc',
+    borderBottomColor: '#f1f5f9',
   },
   itemImage: {
     width: 44,
