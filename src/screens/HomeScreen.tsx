@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     zIndex: 2,
     marginRight: 35,
-    transform: [{ translateY: -14 }],
+    transform: [{ translateY: -30 }],
   },
   sloganRow: {
     flexDirection: 'row',
