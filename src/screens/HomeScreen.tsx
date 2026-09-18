@@ -135,9 +135,17 @@ export const HomeScreen: React.FC = () => {
 
       {/* 4. Bottom Footer */}
       <View style={styles.footerRow}>
-        <Text style={styles.footerLeft}>
-          Canteen Services | Government of India
-        </Text>
+        <View style={styles.footerBrand}>
+          <Image
+            source={require('../../assets/6a72e4e7-5e3f-43cb-bd57-bac2a1fcb7f4.png')}
+            style={styles.footerEmblem}
+            resizeMode="contain"
+            accessibilityLabel="State Emblem of India"
+          />
+          <Text style={styles.footerLeft}>
+            Canteen Services | Government of India
+          </Text>
+        </View>
         <Text style={styles.footerRight}>
           Healthy People. Efficient Governance. Stronger India.
         </Text>
@@ -274,6 +282,15 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: '#f1f5f9',
     marginTop: 10,
+  },
+  footerBrand: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  footerEmblem: {
+    width: 14,
+    height: 18,
+    marginRight: 6,
   },
   footerLeft: {
     fontSize: 10,

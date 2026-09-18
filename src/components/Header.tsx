@@ -11,10 +11,7 @@ import {
 import { AppIcon } from './AppIcon';
 import { useCanteen } from '../context/CanteenContext';
 
-const TAJ_IMAGE_SOURCE = Platform.select({
-  web: { uri: '/taj.png' },
-  default: require('../../assets/taj.png'),
-});
+const EMBLEM_IMAGE = require('../../assets/6a72e4e7-5e3f-43cb-bd57-bac2a1fcb7f4.png');
 
 const OFFICER_AVATAR =
   'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80';
@@ -54,9 +51,12 @@ export const Header: React.FC = () => {
         {/* Left: Emblem & Canteen Services Branding */}
         <View style={styles.brandContainer}>
           <View style={styles.emblemContainer}>
-            <View style={styles.emblemSymbol}>
-              <AppIcon name="shield-checkmark" size={20} color="#0f172a" />
-            </View>
+            <Image
+              source={EMBLEM_IMAGE}
+              style={styles.emblemImage}
+              resizeMode="contain"
+              accessibilityLabel="Government of India Emblem"
+            />
           </View>
           <View style={styles.brandTextContainer}>
             <Text style={styles.govText}>Government of India</Text>
@@ -130,21 +130,15 @@ const styles = StyleSheet.create({
     minWidth: 230,
   },
   emblemContainer: {
-    width: 38,
-    height: 38,
-    marginRight: 10,
+    width: 36,
+    height: 48,
+    marginRight: 12,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  emblemSymbol: {
-    width: 32,
-    height: 32,
-    borderRadius: 6,
-    backgroundColor: '#f1f5f9',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: '#e2e8f0',
+  emblemImage: {
+    width: 36,
+    height: 48,
   },
   brandTextContainer: {
     justifyContent: 'center',
