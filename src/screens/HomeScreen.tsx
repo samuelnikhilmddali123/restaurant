@@ -20,6 +20,20 @@ const TAJ_IMAGE_SOURCE = Platform.select({
   default: require('../../assets/taj.png'),
 });
 
+const SERIF_FONT = Platform.select({
+  ios: 'Georgia',
+  android: 'serif',
+  web: "Georgia, 'Playfair Display', 'Times New Roman', serif",
+  default: 'Georgia',
+});
+
+const SANS_FONT = Platform.select({
+  ios: 'System',
+  android: 'sans-serif',
+  web: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+  default: 'System',
+});
+
 const getTimeBasedGreeting = (): string => {
   const hours = new Date().getHours();
   if (hours >= 4 && hours < 12) {
@@ -72,6 +86,7 @@ export const HomeScreen: React.FC = () => {
           <Text style={styles.greetingSub}>{greeting}</Text>
           <Text style={styles.officerTitle}>IAS Officer</Text>
           <Text style={styles.mottoSub}>Good food. Greater service.</Text>
+          <View style={styles.greetingAccentLine} />
         </View>
 
         {/* Far Right: Rashtrapati Bhavan Artwork from assets/taj.png touching the right side edge */}
@@ -84,11 +99,22 @@ export const HomeScreen: React.FC = () => {
         </View>
 
         {/* Right Slogan */}
-        <View style={styles.sloganContainer}>
-          <Text style={styles.sloganText}>
-            Nourishing{'\n'}People.{'\n'}Enabling{'\n'}Progress.
-          </Text>
-          <View style={styles.sloganUnderline} />
+        <View style={styles.sloganWrapper}>
+          <View style={styles.sloganRow}>
+            {/* Left Vertical Line */}
+            <View style={styles.sloganVerticalLine} />
+
+            {/* Slogan Text */}
+            <Text style={styles.sloganText}>
+              Nourishing{'\n'}People.{'\n'}Enabling{'\n'}Progress.
+            </Text>
+          </View>
+
+          {/* Bottom Two-Tone Accent Line: Orange (left) & Green (right) */}
+          <View style={styles.twoToneAccentLine}>
+            <View style={styles.orangeLineSegment} />
+            <View style={styles.greenLineSegment} />
+          </View>
         </View>
       </View>
 
@@ -174,24 +200,37 @@ const styles = StyleSheet.create({
   },
   heroGreeting: {
     zIndex: 2,
-    transform: [{ translateY: -12 }],
+    transform: [{ translateY: -10 }],
   },
   greetingSub: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#334155',
+    fontSize: 17,
+    fontWeight: '400',
+    color: '#0f172a',
+    fontFamily: SERIF_FONT,
+    letterSpacing: -0.2,
+    marginBottom: 2,
   },
   officerTitle: {
-    fontSize: 38,
-    fontWeight: '800',
+    fontSize: 42,
+    fontWeight: '700',
     color: '#0f172a',
-    letterSpacing: -0.5,
-    lineHeight: 44,
+    fontFamily: SERIF_FONT,
+    letterSpacing: -0.6,
+    lineHeight: 48,
   },
   mottoSub: {
-    fontSize: 15,
-    color: '#64748b',
-    marginTop: 2,
+    fontSize: 14.5,
+    color: '#334155',
+    fontFamily: SANS_FONT,
+    fontWeight: '400',
+    marginTop: 4,
+  },
+  greetingAccentLine: {
+    width: 38,
+    height: 3,
+    backgroundColor: '#0e4d36',
+    borderRadius: 2,
+    marginTop: 10,
   },
   backdropWrapper: {
     position: 'absolute',
@@ -206,24 +245,50 @@ const styles = StyleSheet.create({
     height: '100%',
     opacity: 0.82,
   },
-  sloganContainer: {
+  sloganWrapper: {
     alignItems: 'flex-start',
     zIndex: 2,
     marginRight: 35,
-    transform: [{ translateY: -22 }],
+    transform: [{ translateY: -14 }],
+  },
+  sloganRow: {
+    flexDirection: 'row',
+    alignItems: 'stretch',
+  },
+  sloganVerticalLine: {
+    width: 2.5,
+    backgroundColor: '#0e4d36',
+    borderRadius: 1.5,
+    marginRight: 10,
   },
   sloganText: {
-    fontSize: 13,
-    fontWeight: '700',
+    fontSize: 15.5,
+    fontWeight: '500',
     color: '#0f172a',
-    lineHeight: 18,
+    fontFamily: SERIF_FONT,
+    lineHeight: 21,
+    letterSpacing: -0.2,
   },
-  sloganUnderline: {
-    width: 36,
+  twoToneAccentLine: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+    marginLeft: 12.5,
+    height: 3,
+  },
+  orangeLineSegment: {
+    width: 26,
     height: 3,
     backgroundColor: '#ea580c',
-    borderRadius: 2,
-    marginTop: 6,
+    borderTopLeftRadius: 2,
+    borderBottomLeftRadius: 2,
+  },
+  greenLineSegment: {
+    width: 26,
+    height: 3,
+    backgroundColor: '#0e4d36',
+    borderTopRightRadius: 2,
+    borderBottomRightRadius: 2,
   },
   bodyLayout: {
     flexDirection: 'row',
