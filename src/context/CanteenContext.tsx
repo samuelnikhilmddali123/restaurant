@@ -35,17 +35,8 @@ export const CanteenProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [activeCategory, setActiveCategory] = useState<CategoryId>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  // Initial cart items matching the mockup (Masala Dosa, South Indian Thali, Filter Coffee)
-  const [cart, setCart] = useState<CartItem[]>(() => {
-    const dosa = MENU_ITEMS.find((m) => m.name === 'Masala Dosa') || MENU_ITEMS[1];
-    const thali = MENU_ITEMS.find((m) => m.name === 'South Indian Thali') || MENU_ITEMS[6];
-    const coffee = MENU_ITEMS.find((m) => m.name === 'Filter Coffee') || MENU_ITEMS[16];
-    return [
-      { item: dosa, quantity: 1 },
-      { item: thali, quantity: 1 },
-      { item: coffee, quantity: 1 },
-    ];
-  });
+  // Cart starts empty on app launch; items are only added when selected by the user
+  const [cart, setCart] = useState<CartItem[]>([]);
 
   const [orderNote, setOrderNote] = useState<string>('');
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('online');
